@@ -3,6 +3,7 @@
     <div class="product" v-else>
         <Header />
         <CreateProduct />
+        {{fullname}}
     </div>
 </template>
 

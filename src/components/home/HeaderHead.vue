@@ -8,8 +8,8 @@
             <transition name="fade">
                 <div class="header-head__box--item" v-if="open">
                     <router-link class="header-head__item--button" to='/product'>+ ADD</router-link>
-                    <router-link class="header-head__item--logout" to='/login' v-if="fullname == 'empty'">LOGIN</router-link>
-                    <h3 class="header-head__item--logout" @click.prevent="logout" v-else>LOGOUT {{fullname}}</h3>
+                    <router-link class="header-head__item--logout" to='/login' v-if="isAuth == false">LOGIN</router-link>
+                    <h3 class="header-head__item--logout" @click.prevent="logout" v-else>LOGOUT</h3>
                     <img src="../../assets/img/heart.svg" alt="heart" @click.prevent="showLikesProduct">
                 </div>
             </transition>
@@ -23,6 +23,11 @@ import {bus} from '../../main'
 export default {
     name: "HeaderHead",
     props: ['open'],
+    async mounted() {
+    if(!Object.keys(this.$store.getters.info).length) {
+      await this.$store.dispatch('fetchInfo')
+    }
+  },
     methods: {
         async logout() {
             await this.$store.dispatch('logout')
@@ -37,7 +42,10 @@ export default {
     },
     computed: {
         fullname() {
-            return this.$store.getters.info.fullname || 'empty'
+            return this.$store.getters.info.fullname
+        },
+        isAuth() {
+            return this.$store.state.info.isAuth
         }
     }
 }

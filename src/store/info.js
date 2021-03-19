@@ -2,14 +2,19 @@ import firebase from 'firebase/app'
 
 export default {
     state: {
-        info: {}
+        info: {},
+        isAuth: false
     },
     mutations: {
         setInfo(state, info) {
             state.info = info
+            if(state.info != null) {
+                state.isAuth = true
+            }
         },
         clearInfo(state) {
             state.info = {}
+            state.isAuth = false
         }
     },
     actions: {
